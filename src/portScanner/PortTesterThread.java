@@ -20,7 +20,6 @@ public class PortTesterThread extends Thread {
 	public ArrayList<Integer> test() {
 		ArrayList<Integer> openPorts = new ArrayList<>();
 		for(int count = min;count<max;count++) {
-			//String ret = Integer.toString(count);
 			try {
 				Socket socket = new Socket(address, count);
 				in = socket.getInputStream();
@@ -30,7 +29,7 @@ public class PortTesterThread extends Thread {
 					openPorts.add(count);
 				}
 			} catch (IOException e) {
-				//System.out.println(ret + "closed");
+				
 			}
 		}
 		return openPorts;
@@ -44,14 +43,9 @@ public class PortTesterThread extends Thread {
 		} catch (InterruptedException e) {}
 		ArrayList<Integer> port = test();
 		ArrayList<Integer> empty = new ArrayList<>();
-		byte[] b = null;
 		if (!port.equals(empty)) {
 			System.out.println(port);
-			/*try {
-				in.read(b);
-				System.out.println(b.toString());
-			} catch (IOException e) {
-			}*/
+			
 		}
 		
 		
