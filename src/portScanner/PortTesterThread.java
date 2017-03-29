@@ -2,6 +2,7 @@ package portScanner;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -10,6 +11,9 @@ public class PortTesterThread extends Thread {
 	int min;
 	int max;
 	InputStream in;
+	OutputStream out;
+	byte[] b;
+	int count;
 	
 	public PortTesterThread(String address, int min, int max) {
 		this.address = address;
@@ -17,13 +21,17 @@ public class PortTesterThread extends Thread {
 		this.max = max;
 	}
 	
-	public ArrayList<Integer> test() {
+	public ArrayList<Integer> test() throws InterruptedException {
 		ArrayList<Integer> openPorts = new ArrayList<>();
-		for(int count = min;count<max;count++) {
+		for(count = min;count<max;count++) {
 			try {
 				Socket socket = new Socket(address, count);
+				out = socket.getOutputStream();
 				in = socket.getInputStream();
-				int readData = in.read();
+				out.write((byte) '1');
+				Thread.sleep(1000);
+				b = new byte[256];
+				int readData = in.read(b);
 				socket.close();
 				if(readData != -1) {
 					openPorts.add(count);
@@ -38,18 +46,20 @@ public class PortTesterThread extends Thread {
 	
 	@Override
 	public void run() {
+		
+		ArrayList<Integer> port = null;
 		try {
-			sleep((int) Math.random()*1000);
-		} catch (InterruptedException e) {}
-		ArrayList<Integer> port = test();
+			port = test();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		ArrayList<Integer> empty = new ArrayList<>();
 		if (!port.equals(empty)) {
 			System.out.println(port);
-			
+			System.out.println(b.toString() + " for port: " + count);
+				
 		}
-		
-		
-		
 	}
+		
 	
 }

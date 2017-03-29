@@ -10,7 +10,7 @@ public class PortScanner{
 	static int to;
 	static PortTesterThread porttester;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		System.out.println("Input: [ip-address] [minimal port] [maximal port]");
 		Scanner scanner = new Scanner(System.in);
 		address = scanner.next();
