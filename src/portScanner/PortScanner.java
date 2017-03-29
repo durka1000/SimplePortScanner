@@ -11,12 +11,19 @@ public class PortScanner{
 	static PortTesterThread porttester;
 	
 	public static void main(String[] args) throws InterruptedException {
-		System.out.println("Input: [ip-address] [minimal port] [maximal port]");
-		Scanner scanner = new Scanner(System.in);
-		address = scanner.next();
-		from = scanner.nextInt();
-		to = scanner.nextInt();
-		scanner.close();
+		
+		if (args.length == 0) {
+			System.out.println("PortScanner by durka1000\nInput: [ip-address] [minimal port] [maximal port]");
+			Scanner scanner = new Scanner(System.in);
+			address = scanner.next();
+			from = scanner.nextInt();
+			to = scanner.nextInt();
+			scanner.close();
+		} else {
+			address = args[0];
+			from = Integer.parseInt(args[1]);
+			to = Integer.parseInt(args[2]);
+		}
 		
 		Instant anfang = Instant.now();
 		for (int i = from; i < to+1; i++) {
