@@ -3,6 +3,7 @@ package portScanner;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -56,7 +57,13 @@ public class PortTesterThread extends Thread {
 		ArrayList<Integer> empty = new ArrayList<>();
 		if (!port.equals(empty)) {
 			System.out.println(port);
-			System.out.println(b.toString() + " for port: " + count);
+			String banner = null;
+			try {
+				banner = new String(b, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println(banner);
 				
 		}
 	}
