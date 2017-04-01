@@ -1,5 +1,8 @@
 package portScanner;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,13 +10,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class PortTesterThread extends Thread {
+public class PortTesterThread implements Runnable {
 	String address;
 	int min;
 	int max;
 	InputStream in;
 	OutputStream out;
-	byte[] b;
+	static byte[] b;
 	int count;
 	
 	public PortTesterThread(String address, int min, int max) {
@@ -47,7 +50,6 @@ public class PortTesterThread extends Thread {
 	
 	@Override
 	public void run() {
-		
 		ArrayList<Integer> port = null;
 		try {
 			port = test();
@@ -64,6 +66,18 @@ public class PortTesterThread extends Thread {
 				e.printStackTrace();
 			}
 			System.out.println(banner);
+			
+			File file = new File("ports.txt");
+			System.out.println("File is saved at: " + file.getAbsolutePath());
+			try {
+				file.createNewFile();
+				BufferedWriter out = new BufferedWriter(new FileWriter(file));
+				out.write(port.toString());
+				out.write(banner);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 				
 		}
 	}
