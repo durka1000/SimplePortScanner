@@ -27,7 +27,7 @@ public class PortTesterThread implements Runnable {
 	
 	public ArrayList<Integer> test() throws InterruptedException {
 		ArrayList<Integer> openPorts = new ArrayList<>();
-		for(count = min;count<max;count++) {
+		for(count = min;count < max;count++) {
 			try {
 				Socket socket = new Socket(address, count);
 				out = socket.getOutputStream();
@@ -41,7 +41,7 @@ public class PortTesterThread implements Runnable {
 					openPorts.add(count);
 				}
 			} catch (IOException e) {
-				
+				//maybe return null?
 			}
 		}
 		return openPorts;
@@ -70,7 +70,9 @@ public class PortTesterThread implements Runnable {
 			File file = new File("ports.txt");
 			System.out.println("File is saved at: " + file.getAbsolutePath());
 			try {
-				file.createNewFile();
+				if (!file.exists()) {
+					file.createNewFile();
+				}
 				BufferedWriter out = new BufferedWriter(new FileWriter(file));
 				out.write(port.toString());
 				out.write(banner);
